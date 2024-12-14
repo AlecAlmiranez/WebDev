@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -65,9 +66,21 @@ class BlogsController extends Controller
 
         // $result = DB::table('blogs')->get();
 
-        $result = DB::table('blogs') -> where('status', '!=', 1)->get();
+        $cards = DB::table('blogs') -> where('status', '!=', 1)->get();
 
-        return $result;
+        return $cards;
+
+    }
+
+    public function viewBlogsData(){
+
+        // $result = DB::table('blogs')->get();
+
+        $cards = DB::table('blogs') 
+                    -> where('status', '!=', 1)
+                    ->get();
+
+        return view('common.viewblogs', compact('cards'));
 
     }
 
@@ -80,5 +93,56 @@ class BlogsController extends Controller
         ]);
 
         return $result;
+    }
+
+    public function updateBlogsData(){
+
+        DB::table('blogs')->update([
+            'category_id' => random_int(1,4)
+        ]);
+    }
+
+    public function deleteBlogsData(){
+
+        DB::table('blogs')->where('id',7)->delete();
+    }
+
+    public function retrieveBlogsPerCat(){
+
+        $cards = DB::table('blogs as a')
+                    ->join('category as b', 'b.id', '=' , 'a.category_id')
+                    ->select('a.title','a.status','a.id','a.description','b.name')
+                    ->orderBy('a.id', 'DESC')
+                    ->get();
+
+                    return view('common.viewblogs', compact('cards'));
+    }
+
+    public function getBlogsModel(){
+        
+        //$result = MyBlog::all();
+        $result = Blog::where('status','1')
+        ->get();
+        return $result;
+        
+    }
+    protected $guarded = [
+        'description'
+
+    ];
+
+    protected $hidden =[
+        'description'
+    ];
+
+    public function insertUsingModel(){
+
+        $blog = new Blog();
+        $blog -> title = 'Sample Using Model';
+        $blog -> description = 'Sample Description Using Model';
+        $blog -> status = 0;
+        $blog -> category_id = 1;
+
+        $blog -> save();
     }
 }

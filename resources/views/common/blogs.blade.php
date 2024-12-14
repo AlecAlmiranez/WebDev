@@ -36,7 +36,9 @@
                         <img src="{{ asset('storage/404pic.jpg') }}" class="card-img-top" alt="...">
                         <div class="card-body">
                           <h5 class="card-title">{{$blog['title']}}</h5>
+                          <h2>{{$blog['category']}}</h2>
                          <p class="card-text">{{$blog['body']}}</p>
+                         
                         </div>
                     </div>
                      @endif

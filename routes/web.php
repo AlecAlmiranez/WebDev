@@ -111,6 +111,18 @@ Route::resource('home1', HomeController::class);
 Route::get('/get-blogs',[BlogsController::class,'getBlogsData']);
 Route::get('/insert-blogs',[BlogsController::class,'insertBlogsData']);
 
+Route::get('/viewblogs', [BlogsController::class, 'viewBlogsData']);
+
+Route::get('/updateblogs', [BlogsController::class, 'updateBlogsData']);
+
+Route::get('/deleteblogs', [BlogsController::class, 'deleteBlogsData']);
+
+Route::get('/retrieve', [BlogsController::class, 'retrieveBlogsPerCat']);
+
+Route::get('/getBlogs', [BlogsController::class, 'getBlogsModel']);
+
+Route::get('/insertusemodel', [BlogsController::class, 'insertUsingModel']);
+
 
 Route::fallback(function () {
     //return '<img src="' . asset('storage/404pic.jpg') . '" style="width: 100%; height: auto;" />';
