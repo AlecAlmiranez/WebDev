@@ -4,19 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Blog extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+    
     protected $guarded = [
-        'description',
-        'created_at',
-        'updated_at'
+        'description'
+
     ];
 
     protected $hidden =[
-        'description',
-        'created_at',
-        'updated_at'
+        'description'
     ];
 }

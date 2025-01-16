@@ -123,26 +123,53 @@ class BlogsController extends Controller
         //$result = MyBlog::all();
         $result = Blog::where('status','1')
         ->get();
-        return $result;
         
+        return $result;
     }
-    protected $guarded = [
-        'description'
-
-    ];
-
-    protected $hidden =[
-        'description'
-    ];
 
     public function insertUsingModel(){
 
-        $blog = new Blog();
-        $blog -> title = 'Sample Using Model';
-        $blog -> description = 'Sample Description Using Model';
-        $blog -> status = 0;
-        $blog -> category_id = 1;
+        // $blog = new Blog();
+        // $blog -> title = 'Sample Using Model';
+        // $blog -> description = 'Sample Description Using Model';
+        // $blog -> status = 0;
+        // $blog -> category_id = 1;
 
-        $blog -> save();
+        // $blog -> save();
+        
+    
     }
+
+    public function modelSamples($id, $title)
+    {
+        
+        // $post = Blog::find($id);
+        // $post->title = $title;
+
+        // $post->save();
+        
+        // return $post;
+
+        // $post = Blog::insert([
+        //         [
+        //         'title' =>'Sample123',
+        //         'description' =>'sampleDescription',
+        //         'status' => 0,
+        //         'category_id' => 2,
+        //         'user_id' => 1
+        //         ]
+        //         ]);
+
+        // $post = Blog::where('status', '!=', 1)
+        //                 ->where('category_id', 2)
+        //                 ->update([
+        //                     'status' => '1'
+        //                 ]);
+        //     return $post;
+
+        // $post = Blog::find($id)->delete();
+            $post = Blog::onlyTrashed()->get();
+        return $post;
+        }
+    
 }

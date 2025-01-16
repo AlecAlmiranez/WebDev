@@ -24,8 +24,7 @@
                                     <img src="{{ asset('storage/404pic.jpg') }}" alt="Image" style="Width: 100%; Height: auto;">
                                     <div class="card-body">
                                         <h5 class="card-title"><b>{{ $card->title }}</b></h5>
-                                        <h5>{{$card->name}} </h5>
-                                        {{-- <h4>{{$card->}}</h4> --}}
+                                        <h5><b>{{ $card->name }}</b></h5>
                                         <p class="card-text">{{ $card->description }}</p>
                                     </div>
                                 </div>

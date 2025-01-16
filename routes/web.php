@@ -123,6 +123,7 @@ Route::get('/getBlogs', [BlogsController::class, 'getBlogsModel']);
 
 Route::get('/insertusemodel', [BlogsController::class, 'insertUsingModel']);
 
+Route::get('/modelsamples/{id}/{title}', [BlogsController::class, 'modelSamples']);
 
 Route::fallback(function () {
     //return '<img src="' . asset('storage/404pic.jpg') . '" style="width: 100%; height: auto;" />';
