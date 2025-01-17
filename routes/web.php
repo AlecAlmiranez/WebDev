@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Act4docuController;
 use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
@@ -35,12 +36,12 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'act3'], function () {
     Route::get('/about', function () {
         $about = 'This is about Page';
-        $test = 'This is a test';
+        //$test = 'This is a test';
         //return view('common.about', ['aboutPage' => $about]);
         return view('common.about', compact('about', 'test'));
     })->name('act3about');
     Route::get('/home', function () {
-        $titleblogs = 'This is home Page';
+        // $titleblogs = 'This is home Page';
         $test = 'This is a test';
         $cards = [
             [
@@ -89,7 +90,6 @@ Route::group(['prefix' => 'act3'], function () {
         return view('common.home', compact( 'test', 'cards'));
     })->name('act3home');
 
-
     Route::get('/contact', function () {
         $contact = 'This is contact Page';
         $test = 'This is a test';
@@ -124,6 +124,10 @@ Route::get('/getBlogs', [BlogsController::class, 'getBlogsModel']);
 Route::get('/insertusemodel', [BlogsController::class, 'insertUsingModel']);
 
 Route::get('/modelsamples/{id}/{title}', [BlogsController::class, 'modelSamples']);
+
+//Activity 4 [Finals]
+
+    Route::get('/act4',[Act4docuController::class, 'displayPage']);
 
 Route::fallback(function () {
     //return '<img src="' . asset('storage/404pic.jpg') . '" style="width: 100%; height: auto;" />';
