@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Act4docuController;
+use App\Http\Controllers\Blogs2Controller;
 use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
@@ -128,6 +129,13 @@ Route::get('/modelsamples/{id}/{title}', [BlogsController::class, 'modelSamples'
 //Activity 4 [Finals]
 
     Route::get('/act4',[Act4docuController::class, 'displayPage']);
+
+
+Route::get('/data', [Blogs2Controller::class, 'data']);
+
+Route::get('/datasubmission', [Blogs2Controller::class, 'index']);
+Route::post('/datasubmission', [Blogs2Controller::class, 'blogCreate']) ->name('blog.create');
+
 
 Route::fallback(function () {
     //return '<img src="' . asset('storage/404pic.jpg') . '" style="width: 100%; height: auto;" />';

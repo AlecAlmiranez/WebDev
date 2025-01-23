@@ -12,10 +12,13 @@ class Blog extends Model
     use SoftDeletes;
     
     protected $guarded = [
-        'description'
+
 
     ];
 
+    public function category(){
+        return $this->hasOne(Category::class,'id', 'category_id');
+    }
     protected $hidden =[
         'description'
     ];

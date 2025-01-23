@@ -6,7 +6,8 @@
     @section('content')
         <div class="container bg-light my-5 border p-4">
             {{-- START Document Submission Form --}}
-            <form>
+            <form method="POST" id ="createBlogForm" data-action="{{ route('blog.create') }}">
+                @csrf
                 {{-- Title Box --}}
                 <div class="mb-3 fs-3">
                     <label for="title" class="form-label">Title</label>
@@ -16,26 +17,27 @@
                 {{-- Description Box --}}
                 <div class="mb-3 fs-3">
                     <label for="descriptionbox" class="form-label">Description</label>
-                    <textarea class="form-control" aria-label="With textarea"></textarea>
+                    <textarea class="form-control" aria-label="With textarea" name="description" id="description"></textarea>
                 </div>
 
                 {{-- Select Menu --}}
                 <div class ="mb-3 fs-3">
                     <label for="selectcategory" class = "form-label">Category</label>
-                    <select class="form-select" aria-label="Default select example">
+                    <select class="form-select" aria-label="Default select example" name ="category" id= "category">
                         <option selected>Select Category</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        @foreach ($categories as $category)
+                            <option value=" {{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg">Search</button>
+                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
             </form>
             {{-- END Document Submission Form --}}
             <br>
             {{-- START Document Display Table --}}
+
             <div class="mb-3 fs-3">
-                <table class="table table-hover table-striped">
+                <table class="table table-hover table-striped" name="table" id="table">
                     <thead>
                         <tr>
                             <th scope="col">Document #</th>
@@ -45,29 +47,57 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Title1</td>
-                            <td>Description1</td>
-                            <td>Category1</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Title2</td>
-                            <td>Description2</td>
-                            <td>Category2</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Title3</td>
-                            <td>Description3</td>
-                            <td>Category3</td>
-                        </tr>
+                        @foreach ($blogs as $blog)
+                            <tr>
+                                <th scope="row">{{ $blog->id }}</th>
+                                <td>{{ $blog->title }}</td>
+                                <td>{{ $blog->description }}</td>
+                                <td>{{ $blog->category->name ?? 'N/A' }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
-                </table>
+
             </div>
             {{-- END Document Display Table --}}
         </div>
+        <script type="module">
+            const form = "#createBlogForm";
+            $(function() {
+                createBlog();
+            });
+
+            function createBlog() {
+                $(form).on('submit', function(event) {
+                    event.preventDefault();
+                    $.ajax({
+                    url: '{{route('blog.create')}}',
+                        method: 'POST',
+                        data: new FormData(this),
+                        datatype: 'JSON',
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(response) {
+                            populateData(response);
+                        },
+                        error: function(response) {
+                            alert(response);
+                        }
+                    });
+                });
+            }
+            function populateData(data){
+                var row = "<tr>"
+                    row += '<td>'+data.id+'</td>';
+                    row += '<td>'+data.title+'</td>';
+                    row += '<td>'+data.description+'</td>';
+                    row += '<td>'+data.category+'</td>';
+                    row += "</tr>"
+
+                    $("#table").find('tbody').prepend(row);
+                }
+
+        </script>
     @endsection
 </body>
 
