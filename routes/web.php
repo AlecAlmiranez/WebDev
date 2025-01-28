@@ -7,31 +7,27 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/act2', function () {
     return view('activity2');
 });
 
-Route::group(['prefix' => 'admin'], function () {
-    Route::get('/home', function () {
-        return view('layout.master');
-    })->name('home');
+// Route::group(['prefix' => 'admin'], function () {
+//     Route::get('/home', function () {
+//         return view('layout.master');
+//     })->name('home');
 
-    Route::get('/user/{id}/{name}', function ($id, $name) {
-        return "<a href = '" . route('settingsPage', ['id' => $id, 'name' => $name]) . "'>" . 'Settings</a>';
-    });
+//     Route::get('/user/{id}/{name}', function ($id, $name) {
+//         return "<a href = '" . route('settingsPage', ['id' => $id, 'name' => $name]) . "'>" . 'Settings</a>';
+//     });
 
-    Route::get('/about', function () {
-        return 'about Page';
-    })->name('aboutPage');
+//     Route::get('/about', function () {
+//         return 'about Page';
+//     })->name('aboutPage');
 
-    Route::get('/settings/{id}/{name}', function ($id, $name) {
-        return $id . ' ' . $name;
-    })->name('settingsPage');
-});
+//     Route::get('/settings/{id}/{name}', function ($id, $name) {
+//         return $id . ' ' . $name;
+//     })->name('settingsPage');
+// });
 
 // ACT 3
 Route::group(['prefix' => 'act3'], function () {
@@ -105,9 +101,9 @@ Route::group(['prefix' => 'act3'], function () {
 //     return view('common/login');
 // });
 
-Route::get('/login', [LoginController::class, 'index'])->name('login');
-Route::post('/loginsubmit', [LoginController::class, 'loginSubmit'])->name('login.submit');
-Route::resource('home1', HomeController::class);
+// Route::get('/login', [LoginController::class, 'index'])->name('login.test');
+// Route::post('/loginsubmit', [LoginController::class, 'loginSubmit'])->name('login.submittest');
+// Route::resource('home1', HomeController::class);
 
 Route::get('/get-blogs',[BlogsController::class,'getBlogsData']);
 Route::get('/insert-blogs',[BlogsController::class,'insertBlogsData']);
@@ -133,9 +129,29 @@ Route::get('/modelsamples/{id}/{title}', [BlogsController::class, 'modelSamples'
 
 Route::get('/data', [Blogs2Controller::class, 'data']);
 
-Route::get('/datasubmission', [Blogs2Controller::class, 'index']);
+Route::get('/datasubmission', [Blogs2Controller::class, 'index'])->name('datasubmission');
 Route::post('/datasubmission', [Blogs2Controller::class, 'blogCreate']) ->name('blog.create');
 
+// Login Authentication
+Route::group(['middleware' => 'guest', 'prefix' => '/'], function(){
+
+    Route::get('/register', [LoginController::class, 'register'])->name('register');
+    Route::post('/register', [LoginController::class, 'registerPost'])->name('register.create');
+
+    Route::get('/', [LoginController::class, 'login'])->name('login');
+    Route::post('/login', [LoginController::class, 'loginPost'])->name('login.submit');
+
+});
+
+//Middleware
+
+Route::group(['middleware' => ['custom.auth']], function() {
+    Route::get('/act4',[Act4docuController::class, 'displayPage'])->name('display');
+    Route::get('/home', function () {
+                return view('layout.master');
+            })->name('home');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+});
 
 Route::fallback(function () {
     //return '<img src="' . asset('storage/404pic.jpg') . '" style="width: 100%; height: auto;" />';
